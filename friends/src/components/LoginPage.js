@@ -18,12 +18,16 @@ class LoginPage extends React.Component {
   handleSubmit = event => {
     event.preventDefault();
     this.props.submitCredsAction(this.state);
+    this.setState({
+      username: '',
+      password: ''
+    })
   }
 
   render() {
     return (
       <div>
-        <form>
+        <form onSubmit={this.handleSubmit}>
           <input
             name='username'
             placeholder='Username'

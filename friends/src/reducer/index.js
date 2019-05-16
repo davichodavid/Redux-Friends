@@ -1,4 +1,7 @@
-import { SUBMITTING, SUBMITTING_SUCCESS, SUBMITTING_FAILURE } from '../actions'
+import {
+  SUBMITTING, SUBMITTING_SUCCESS, SUBMITTING_FAILURE,
+  GETTING_FRIENDS, GETTING_FRIENDS_SUCCESS, GETTING_FRIENDS_FAILURE
+} from '../actions'
 
 const initialState = {
   friends: [],
@@ -21,6 +24,28 @@ export const rootReducer = (state = initialState, action) => {
         error: ''
       }
     case SUBMITTING_FAILURE:
+      return {
+        ...state,
+        isLoading: false,
+        error: action.payload
+      }
+
+    /**Here are the CASES for getting a list of friends from the server  */
+
+    case GETTING_FRIENDS:
+      return {
+        ...state,
+        isLoading: true,
+        error: ''
+      }
+    case GETTING_FRIENDS_SUCCESS:
+      return {
+        ...state,
+        friends: [...action.payload],
+        isLoading: false,
+        error: ''
+      }
+    case GETTING_FRIENDS_FAILURE:
       return {
         ...state,
         isLoading: false,
