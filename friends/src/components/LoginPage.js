@@ -5,24 +5,32 @@ import { submitCredsAction } from '../actions';
 
 class LoginPage extends React.Component {
   state = {
-    username: '',
-    password: ''
-  }
+    credentials: {
+      username: '',
+      password: ''
+    }
+  };
 
   handleChanges = event => {
     this.setState({
-      [event.target.name]: event.target.value
+      credentials: {
+        ...this.state.credentials,
+        [event.target.name]: event.target.value
+      }
     })
   }
 
   handleSubmit = event => {
     event.preventDefault();
-    this.props.submitCredsAction(this.state);
-    this.setState({
-      username: '',
-      password: ''
-    })
-  }
+    this.props.submitCredsAction(this.state.credentials)
+      .then(() => {
+        this.props.history.push('/friends');
+      })
+    // this.setState({
+    //   username: '',
+    //   password: ''
+    // })
+  };
 
   render() {
     return (
@@ -31,12 +39,12 @@ class LoginPage extends React.Component {
           <input
             name='username'
             placeholder='Username'
-            value={this.state.username}
+            value={this.state.credentials.username}
             onChange={this.handleChanges} />
           <input
             name='password'
             placeholder='Password'
-            value={this.state.password}
+            value={this.state.credentials.password}
             onChange={this.handleChanges} />
           <button onClick={this.handleSubmit}>Log In</button>
         </form>

@@ -21,18 +21,18 @@ class GetFriends extends React.Component {
   }
 
   render() {
-    this.props.friends && this.props.friends.map(friend => {
-      return (
-        <div>
+    return (
+      this.props.friends.map(friend => {
+        return <div key={friend.id}>
           <h1>{friend.name}</h1>
           <p>{friend.age}</p>
           <p>{friend.email}</p>
         </div>
-      )
-    })
-    return 'Loading...';
-  }
 
+      })
+    )
+
+  }
 }
 
 const mapStateToProps = state => {

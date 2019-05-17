@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { axiosWithAuth } from '../components/authentification/axiosWithAuth';
 
 export const SUBMITTING = 'SUBMITTING';
 export const SUBMITTING_SUCCESS = 'SUBMITTING_SUCCESS';
@@ -6,12 +7,13 @@ export const SUBMITTING_FAILURE = 'SUBMITTING_FAILURE';
 
 export const submitCredsAction = loginData => dispatch => {
   dispatch({ type: SUBMITTING });
-  axios.post('http://localhost:5000/api/login', loginData)
+  return axios.post('http://localhost:5000/api/login', loginData)
     .then(res => {
       console.log(res)
+      localStorage.setItem('token', res.data.payload)
       dispatch({
         type: SUBMITTING_SUCCESS,
-        payload: localStorage.setItem('token', res.data.payload)
+        payload: res.data.payload
       })
     })
     .catch(err => {
@@ -31,7 +33,7 @@ export const GETTING_FRIENDS_FAILURE = 'GETTING_FRIENDS_FAILURE';
 
 export const getFriends = friends => dispatch => {
   dispatch({ type: GETTING_FRIENDS });
-  axios.get('http://localhost:5000/api/friends')
+  axiosWithAuth().get('http://localhost:5000/api/friends')
     .then(res => {
       console.log(res)
       dispatch({
@@ -43,7 +45,7 @@ export const getFriends = friends => dispatch => {
       console.log(err)
       dispatch({
         type: GETTING_FRIENDS_FAILURE,
-        payload: err.data
+        payload: `${err.statusText}`
       })
     })
 }

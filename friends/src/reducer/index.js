@@ -41,7 +41,7 @@ export const rootReducer = (state = initialState, action) => {
     case GETTING_FRIENDS_SUCCESS:
       return {
         ...state,
-        friends: [...action.payload],
+        friends: [...state.friends, ...action.payload],
         isLoading: false,
         error: ''
       }
